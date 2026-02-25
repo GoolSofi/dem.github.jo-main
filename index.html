@@ -21,8 +21,7 @@ clogs: 0.15%
  
 У каждого поколения есть свой философ, писатель или художник, который захватывает и воплощает в себе идею времени. Иногда эти философы получают признание при жизни, но чаще всего им приходится ждать, пока на них наложит свой отпечаток время. Независимо от того, будет ли это признание немедленным или запоздалым, эпоха отмечена этими людьми, выражающими свои идеалы в шепоте стихов или в грохоте политического движения. У нашего поколения есть философ. Он не художник и не писатель. Он программист.
 
-    
- <h4>25 02 2026</h4>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -31,12 +30,11 @@ clogs: 0.15%
     <title>Хроники Программиста</title>
     <style>
         :root {
-            /* Заменили розовые цвета на синие/голубые */
-            --primary-color: #0277bd;       /* Темно-голубой для заголовков и текста */
-            --accent-color: #29b6f6;        /* Ярко-голубой для акцентов и рамок */
-            --success-color: #27ae60;       /* Зеленый оставили для успеха */
-            --bg-color: #e3f2fd;            /* Очень светлый голубой фон страницы */
-            --card-bg: #b3e5fc;             /* Светло-голубой фон карточек */
+            --primary-color: #0277bd;
+            --accent-color: #29b6f6;
+            --success-color: #27ae60;
+            --bg-color: #e3f2fd;
+            --card-bg: #b3e5fc;
             --text-color: #333;
         }
 
@@ -56,8 +54,9 @@ clogs: 0.15%
 
         .date-header {
             font-size: 1.2rem;
-            color: var(--primary-color);
-            font-weight: bold;
+            /* Цифры черные и жирные */
+            color: #000000; 
+            font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-top: 40px;
@@ -108,15 +107,18 @@ clogs: 0.15%
 
         .time-badge {
             font-size: 0.8rem;
-            background: #81d4fa; /* Чуть темнее для бейджика */
+            background: #81d4fa;
             padding: 4px 8px;
             border-radius: 4px;
-            color: #01579b;
+            /* Цифры черные и жирные */
+            color: #000000;
+            font-weight: 700;
         }
 
         .equation-box {
-            background: #0277bd; /* Темно-голубой фон уравнения */
-            color: #e1f5fe;      /* Почти белый текст */
+            /* Фон белый для контраста с черным текстом */
+            background: #ffffff; 
+            color: #000000;
             padding: 15px;
             border-radius: 5px;
             font-family: 'Courier New', Courier, monospace;
@@ -124,6 +126,9 @@ clogs: 0.15%
             font-size: 1.1rem;
             margin-bottom: 15px;
             white-space: pre;
+            /* Делаем цифры жирными */
+            font-weight: 900;
+            border: 2px solid var(--primary-color);
         }
 
         .solution-grid {
@@ -151,6 +156,7 @@ clogs: 0.15%
 
         .var-value {
             display: block;
+            /* Цифры черные и очень жирные */
             color: #000000;
             font-weight: 900;
             font-size: 1.4rem;
@@ -296,3 +302,4 @@ clogs: 0.15%
 
 </body>
 </html>
+```
