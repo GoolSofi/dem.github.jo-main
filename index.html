@@ -23,15 +23,6 @@ clogs: 0.15%
 
     
  <h4>25 02 2026</h4>
-Соответствие букв цифрам: {'S': 9, 'E': 5, 'N': 6, 'D': 7, 'M': 1, 'O': 0, 'R': 8, 'Y': 2}
-<h4>25 02 2026</h4>
-  9567
-+ 1085
-  -----
-  10652
-
-Проверка: 9567 + 1085 = 10652 ✓
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -40,12 +31,12 @@ clogs: 0.15%
     <title>Хроники Программиста</title>
     <style>
         :root {
-            --primary-color: #c2185b;
-            --accent-color: #ec407a;
-            --success-color: #27ae60;
-            /* Изменили этот цвет на нежно-голубой */
-            --bg-color: #e3f2fd; 
-            --card-bg: #f8bbd0;
+            /* Заменили розовые цвета на синие/голубые */
+            --primary-color: #0277bd;       /* Темно-голубой для заголовков и текста */
+            --accent-color: #29b6f6;        /* Ярко-голубой для акцентов и рамок */
+            --success-color: #27ae60;       /* Зеленый оставили для успеха */
+            --bg-color: #e3f2fd;            /* Очень светлый голубой фон страницы */
+            --card-bg: #b3e5fc;             /* Светло-голубой фон карточек */
             --text-color: #333;
         }
 
@@ -117,15 +108,15 @@ clogs: 0.15%
 
         .time-badge {
             font-size: 0.8rem;
-            background: #f8bbd0;
+            background: #81d4fa; /* Чуть темнее для бейджика */
             padding: 4px 8px;
             border-radius: 4px;
-            color: #880e4f;
+            color: #01579b;
         }
 
         .equation-box {
-            background: #c2185b;
-            color: #fce4ec;
+            background: #0277bd; /* Темно-голубой фон уравнения */
+            color: #e1f5fe;      /* Почти белый текст */
             padding: 15px;
             border-radius: 5px;
             font-family: 'Courier New', Courier, monospace;
@@ -187,10 +178,11 @@ clogs: 0.15%
 
 <div class="container">
 
-    </div>
-
+    <div class="date-header">21 02 2026</div>
+    <div class="quote-block">
+        
     <div class="date-header">25 02 2026</div>
-    <h2 style="text-align: center; color: #880e4f; font-weight: normal;">Отчет о вычислениях</h2>
+    <h2 style="text-align: center; color: #01579b; font-weight: normal;">Отчет о вычислениях</h2>
 
     <div class="puzzle-card">
         <div class="puzzle-title">
@@ -304,4 +296,3 @@ clogs: 0.15%
 
 </body>
 </html>
-
