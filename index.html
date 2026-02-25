@@ -32,111 +32,279 @@ clogs: 0.15%
 
 Проверка: 9567 + 1085 = 10652 ✓
 
+вот тебе мой код, сделай так чтобы фон был нежно голубого цвета <!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Хроники Программиста</title>
+    <style>
+        :root {
+            --primary-color: #c2185b;
+            --accent-color: #ec407a;
+            --success-color: #27ae60;
+            --bg-color: #fce4ec;
+            --card-bg: #f8bbd0;
+            --text-color: #333;
+        }
 
-╔══════════════════════════════════════════════════════════════════════════════╗
-║                    🧩 CRYPTARITHM SOLVER v2.0                             ║
-║                  Решатель криптарифметических ребусов                     ║
-╚══════════════════════════════════════════════════════════════════════════════╝
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+        }
 
-────────────────────────────────────────────────────────────────────────────────
-  ✅  ВОЛК + ЛИСА = ЗВЕРИ
-  РЕШЕНИЕ НАЙДЕНО
-────────────────────────────────────────────────────────────────────────────────
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
-  📋 Соответствие букв цифрам:
+        .date-header {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 5px;
+        }
 
-  ────────────────────────────────────────
-  │   А   │   В   │   Е   │   З   │   И   │
-  │   3   │   8   │   0   │   1   │   7   │
-  ────────────────────────────────────────
-  │   К   │   Л   │   О   │   Р   │   С   │
-  │   4   │   9   │   2   │   5   │   6   │
-  ────────────────────────────────────────
+        .quote-block {
+            background: var(--card-bg);
+            border-left: 5px solid var(--primary-color);
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            font-style: italic;
+        }
+        
+        .quote-block h1 {
+            font-size: 1.5rem;
+            margin-top: 0;
+            color: var(--primary-color);
+        }
 
-  🔢 Числовое представление:
+        .puzzle-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
 
-      8294
-    + 9763
-    ──────────
-      18057
+        .puzzle-card:hover {
+            transform: translateY(-2px);
+        }
 
-  ✓ Проверка: 18057 = 18057
+        .puzzle-title {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
+        .time-badge {
+            font-size: 0.8rem;
+            background: #f8bbd0;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #880e4f;
+        }
 
-────────────────────────────────────────────────────────────────────────────────
-  ✅  КТО + КОТ = ТОК
-  РЕШЕНИЕ НАЙДЕНО
-────────────────────────────────────────────────────────────────────────────────
+        .equation-box {
+            background: #c2185b;
+            color: #fce4ec;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            white-space: pre;
+        }
 
-  📋 Соответствие букв цифрам:
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+        }
 
-  ────────────────────────────────────────
-  │   К   │   О   │   Т   │
-  │   4   │   5   │   9   │
-  ────────────────────────────────────────
+        .var-item {
+            background: var(--bg-color);
+            padding: 10px;
+            text-align: center;
+            border-radius: 6px;
+            border: 2px solid var(--accent-color);
+        }
 
-  🔢 Числовое представление:
+        .var-letter {
+            display: block;
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
 
-      495
-    + 459
-    ──────────
-      954
+        .var-value {
+            display: block;
+            color: #000000;
+            font-weight: 900;
+            font-size: 1.4rem;
+            line-height: 1;
+        }
 
-  ✓ Проверка: 954 = 954
+        .status-success {
+            color: var(--success-color);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 
+        @media (max-width: 600px) {
+            .puzzle-title {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
 
+<div class="container">
 
+    <div class="date-header">21 02 2026</div>
+    <div class="quote-block">
+        <h1>Манифест Поколения</h1>
+        <p>У каждого поколения есть свой философ, писатель или художник, который захватывает и воплощает в себе идею времени. Иногда эти философы получают признание при жизни, но чаще всего им приходится ждать, пока на них наложит свой отпечаток время. Независимо от того, будет ли это признание немедленным или запоздалым, эпоха отмечена этими людьми, выражающими свои идеалы в шепоте стихов или в грохоте политического движения.</p>
+        <p><strong>У нашего поколения есть философ. Он не художник и не писатель. Он программист.</strong></p>
+    </div>
 
-────────────────────────────────────────────────────────────────────────────────
-  ✅  КОШКА + КОШКА + КОШКА = СОБАКА
-  РЕШЕНИЕ НАЙДЕНО
-────────────────────────────────────────────────────────────────────────────────
+    <div class="date-header">25 02 2026</div>
+    <h2 style="text-align: center; color: #880e4f; font-weight: normal;">Отчет о вычислениях</h2>
 
-  📋 Соответствие букв цифрам:
+    <div class="puzzle-card">
+        <div class="puzzle-title">
+            SEND + MORE = MONEY
+            <span class="time-badge">Классика</span>
+        </div>
+        <div class="equation-box">  9567
++ 1085
+------
+ 10652</div>
+        <div class="solution-grid">
+            <div class="var-item"><span class="var-letter">S</span><span class="var-value">9</span></div>
+            <div class="var-item"><span class="var-letter">E</span><span class="var-value">5</span></div>
+            <div class="var-item"><span class="var-letter">N</span><span class="var-value">6</span></div>
+            <div class="var-item"><span class="var-letter">D</span><span class="var-value">7</span></div>
+            <div class="var-item"><span class="var-letter">M</span><span class="var-value">1</span></div>
+            <div class="var-item"><span class="var-letter">O</span><span class="var-value">0</span></div>
+            <div class="var-item"><span class="var-letter">R</span><span class="var-value">8</span></div>
+            <div class="var-item"><span class="var-letter">Y</span><span class="var-value">2</span></div>
+        </div>
+        <div class="status-success">✅ Равенство верно!</div>
+    </div>
 
-  ────────────────────────────────────────
-  │   А   │   Б   │   К   │   О   │   С   │
-  │   0   │   2   │   5   │   7   │   1   │
-  ────────────────────────────────────────
-  │   Ш   │
-  │   3   │
-  ────────────────────────────────────────
+    <div class="puzzle-card">
+        <div class="puzzle-title">
+            КТО + КОТ = ТОК
+            <span class="time-badge">⏱ 0.0007 сек</span>
+        </div>
+        <div class="equation-box">  495
++ 459
+-----
+  954</div>
+        <div class="solution-grid">
+            <div class="var-item"><span class="var-letter">К</span><span class="var-value">4</span></div>
+            <div class="var-item"><span class="var-letter">Т</span><span class="var-value">9</span></div>
+            <div class="var-item"><span class="var-letter">О</span><span class="var-value">5</span></div>
+        </div>
+        <div class="status-success">✅ 495 + 459 = 954</div>
+    </div>
 
-  🔢 Числовое представление:
+    <div class="puzzle-card">
+        <div class="puzzle-title">
+            КОШКА × 3 = СОБАКА
+            <span class="time-badge">⏱ 0.2269 сек</span>
+        </div>
+        <div class="equation-box">  56350
+×     3
+-------
+ 169050</div>
+        <div class="solution-grid">
+            <div class="var-item"><span class="var-letter">К</span><span class="var-value">5</span></div>
+            <div class="var-item"><span class="var-letter">О</span><span class="var-value">6</span></div>
+            <div class="var-item"><span class="var-letter">Ш</span><span class="var-value">3</span></div>
+            <div class="var-item"><span class="var-letter">А</span><span class="var-value">0</span></div>
+            <div class="var-item"><span class="var-letter">С</span><span class="var-value">1</span></div>
+            <div class="var-item"><span class="var-letter">Б</span><span class="var-value">9</span></div>
+        </div>
+        <div class="status-success">✅ 56350 × 3 = 169050</div>
+    </div>
 
-      57350
-      57350
-    + 57350
-    ───────────────
-     172050
+    <div class="puzzle-card">
+        <div class="puzzle-title">
+            2×СИНУС + КОСИНУС = ТАНГЕНС
+            <span class="time-badge">⏱ 3.9552 сек</span>
+        </div>
+        <div class="equation-box">   58725
+   58725
++ 3958725
+---------
+  4076175</div>
+        <div class="solution-grid">
+            <div class="var-item"><span class="var-letter">С</span><span class="var-value">5</span></div>
+            <div class="var-item"><span class="var-letter">И</span><span class="var-value">8</span></div>
+            <div class="var-item"><span class="var-letter">Н</span><span class="var-value">7</span></div>
+            <div class="var-item"><span class="var-letter">У</span><span class="var-value">2</span></div>
+            <div class="var-item"><span class="var-letter">К</span><span class="var-value">3</span></div>
+            <div class="var-item"><span class="var-letter">О</span><span class="var-value">9</span></div>
+            <div class="var-item"><span class="var-letter">Т</span><span class="var-value">4</span></div>
+            <div class="var-item"><span class="var-letter">А</span><span class="var-value">0</span></div>
+            <div class="var-item"><span class="var-letter">Г</span><span class="var-value">6</span></div>
+            <div class="var-item"><span class="var-letter">Е</span><span class="var-value">1</span></div>
+        </div>
+        <div class="status-success">✅ Сумма верна</div>
+    </div>
 
-  ✓ Проверка: 172050 = 172050
+    <div class="puzzle-card">
+        <div class="puzzle-title">
+            ВОЛК + ЛИСА = ЗВЕРИ
+            <span class="time-badge">⏱ 2.7545 сек</span>
+        </div>
+        <div class="equation-box">  5392
++ 9684
+------
+ 15076</div>
+        <div class="solution-grid">
+            <div class="var-item"><span class="var-letter">В</span><span class="var-value">5</span></div>
+            <div class="var-item"><span class="var-letter">О</span><span class="var-value">3</span></div>
+            <div class="var-item"><span class="var-letter">Л</span><span class="var-value">9</span></div>
+            <div class="var-item"><span class="var-letter">К</span><span class="var-value">2</span></div>
+            <div class="var-item"><span class="var-letter">И</span><span class="var-value">6</span></div>
+            <div class="var-item"><span class="var-letter">С</span><span class="var-value">8</span></div>
+            <div class="var-item"><span class="var-letter">А</span><span class="var-value">4</span></div>
+            <div class="var-item"><span class="var-letter">З</span><span class="var-value">1</span></div>
+            <div class="var-item"><span class="var-letter">Е</span><span class="var-value">0</span></div>
+            <div class="var-item"><span class="var-letter">Р</span><span class="var-value">7</span></div>
+        </div>
+        <div class="status-success">✅ 5392 + 9684 = 15076</div>
+    </div>
 
+</div>
 
-
-────────────────────────────────────────────────────────────────────────────────
-  ✅  СИНУС + СИНУС + КОСИНУС = ТАНГЕНС
-  РЕШЕНИЕ НАЙДЕНО
-────────────────────────────────────────────────────────────────────────────────
-
-  📋 Соответствие букв цифрам:
-
-  ────────────────────────────────────────
-  │   А   │   Г   │   Е   │   И   │   К   │
-  │   0   │   6   │   1   │   8   │   3   │
-  ────────────────────────────────────────
-  │   Н   │   О   │   С   │   Т   │   У   │
-  │   7   │   9   │   5   │   4   │   2   │
-  ────────────────────────────────────────
-
-  🔢 Числовое представление:
-
-        58725
-        58725
-    + 3958725
-    ───────────────
-     4076175
-
-  ✓ Проверка: 4076175 = 4076175
 </body>
 </html>
