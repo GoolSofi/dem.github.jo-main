@@ -32,304 +32,129 @@ clogs: 0.15%
 
 Проверка: 9567 + 1085 = 10652 ✓
 
-"""
-=============================================================================
-CRYPTARITHM SOLVER - Решатель криптарифметических ребусов
-=============================================================================
-Описание: Программа находит числовые решения для буквенных математических ребусов
-Автор: [Ваше имя]
-Версия: 1.0
-Дата: 2024
-=============================================================================
-"""
 
-from itertools import permutations
-from time import time
-from typing import Optional, Tuple, List, Dict
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    🧩 CRYPTARITHM SOLVER v2.0                             ║
+║                  Решатель криптарифметических ребусов                     ║
+╚══════════════════════════════════════════════════════════════════════════════╝
 
+────────────────────────────────────────────────────────────────────────────────
+  ✅  ВОЛК + ЛИСА = ЗВЕРИ
+  РЕШЕНИЕ НАЙДЕНО
+────────────────────────────────────────────────────────────────────────────────
 
-# =============================================================================
-# КОНФИГУРАЦИЯ
-# =============================================================================
+  📋 Соответствие букв цифрам:
 
-class CryptarithmConfig:
-    """Конфигурация решателя ребусов"""
-    
-    # Список ребусов для решения
-    PUZZLES = [
-        {
-            'name': 'ВОЛК + ЛИСА = ЗВЕРИ',
-            'terms': ['ВОЛК', 'ЛИСА'],
-            'result': 'ЗВЕРИ'
-        },
-        {
-            'name': 'КТО + КОТ = ТОК',
-            'terms': ['КТО', 'КОТ'],
-            'result': 'ТОК'
-        },
-        {
-            'name': 'КОШКА + КОШКА + КОШКА = СОБАКА',
-            'terms': ['КОШКА', 'КОШКА', 'КОШКА'],
-            'result': 'СОБАКА'
-        },
-        {
-            'name': 'СИНУС + СИНУС + КОСИНУС = ТАНГЕНС',
-            'terms': ['СИНУС', 'СИНУС', 'КОСИНУС'],
-            'result': 'ТАНГЕНС'
-        }
-    ]
-    
-    # Символы для оформления вывода
-    SEPARATOR = '=' * 70
-    SUB_SEPARATOR = '-' * 70
+  ────────────────────────────────────────
+  │   А   │   В   │   Е   │   З   │   И   │
+  │   3   │   8   │   0   │   1   │   7   │
+  ────────────────────────────────────────
+  │   К   │   Л   │   О   │   Р   │   С   │
+  │   4   │   9   │   2   │   5   │   6   │
+  ────────────────────────────────────────
+
+  🔢 Числовое представление:
+
+      8294
+    + 9763
+    ──────────
+      18057
+
+  ✓ Проверка: 18057 = 18057
+
+  ⏱ Время выполнения: 2.8438 сек
 
 
-# =============================================================================
-# ОСНОВНОЙ КЛАСС РЕШАТЕЛЯ
-# =============================================================================
+────────────────────────────────────────────────────────────────────────────────
+  ✅  КТО + КОТ = ТОК
+  РЕШЕНИЕ НАЙДЕНО
+────────────────────────────────────────────────────────────────────────────────
 
-class CryptarithmSolver:
-    """Класс для решения криптарифметических ребусов"""
-    
-    def __init__(self):
-        self.solutions = []
-    
-    def solve(self, terms: List[str], result: str) -> Optional[Tuple[Dict, int, int]]:
-        """
-        Решение криптарифметического ребуса
-        
-        Args:
-            terms: Список слагаемых (например, ['ВОЛК', 'ЛИСА'])
-            result: Результат суммы (например, 'ЗВЕРИ')
-        
-        Returns:
-            Кортеж (mapping, left_sum, result_num) или None если решения нет
-        """
-        # Собираем все уникальные буквы
-        all_letters = set(''.join(terms + [result]))
-        
-        # Проверка: не более 10 уникальных букв
-        if len(all_letters) > 10:
-            return None
-        
-        letters = list(all_letters)
-        first_letters = set(term[0] for term in terms + [result])
-        
-        # Перебор всех перестановок цифр
-        for perm in permutations(range(10), len(letters)):
-            mapping = dict(zip(letters, perm))
-            
-            # Первые буквы не могут быть нулём
-            if any(mapping[letter] == 0 for letter in first_letters):
-                continue
-            
-            # Вычисляем сумму слагаемых
-            left_sum = sum(self._word_to_number(term, mapping) for term in terms)
-            
-            # Вычисляем результат
-            result_num = self._word_to_number(result, mapping)
-            
-            # Проверка равенства
-            if left_sum == result_num:
-                return mapping, left_sum, result_num
-        
-        return None
-    
-    def _word_to_number(self, word: str, mapping: Dict[str, int]) -> int:
-        """
-        Преобразование слова в число по заданному соответствию букв и цифр
-        
-        Args:
-            word: Слово из букв
-            mapping: Словарь соответствия букв цифрам
-        
-        Returns:
-            Числовое значение слова
-        """
-        number = 0
-        for char in word:
-            number = number * 10 + mapping[char]
-        return number
-    
-    def format_solution(self, puzzle_name: str, result: Optional[Tuple], 
-                       elapsed_time: float) -> str:
-        """
-        Форматирование результата для вывода
-        
-        Args:
-            puzzle_name: Название ребуса
-            result: Результат решения (или None)
-            elapsed_time: Время выполнения в секундах
-        
-        Returns:
-            Отформатированная строка с решением
-        """
-        output = []
-        output.append(CryptarithmConfig.SEPARATOR)
-        output.append(f"🧩 РЕБУС: {puzzle_name}")
-        output.append(CryptarithmConfig.SEPARATOR)
-        
-        if result:
-            mapping, left_sum, result_num = result
-            output.append("✅ РЕШЕНИЕ НАЙДЕНО!\n")
-            
-            # Соответствие букв цифрам
-            output.append("Соответствие букв цифрам:")
-            for letter in sorted(mapping.keys()):
-                output.append(f"  {letter} = {mapping[letter]}")
-            
-            # Визуальное представление примера
-            output.append("\nПример:")
-            terms = puzzle_name.split('=')[0].replace('+', '').split()
-            for term in terms:
-                if term.strip():
-                    num = ''.join(str(mapping[c]) for c in term.strip() if c in mapping)
-                    if num:
-                        output.append(f"  {term.strip()} = {num}")
-            
-            result_word = puzzle_name.split('=')[1].strip()
-            result_digits = ''.join(str(mapping[c]) for c in result_word if c in mapping)
-            output.append(f"  {result_word} = {result_digits}")
-            
-            output.append(f"\n✓ Проверка: {left_sum} = {result_num}")
-            output.append(f"⏱ Время выполнения: {elapsed_time:.2f} сек")
-        else:
-            output.append("❌ Решение не найдено")
-            output.append(f"⏱ Время выполнения: {elapsed_time:.2f} сек")
-        
-        return '\n'.join(output)
+  📋 Соответствие букв цифрам:
+
+  ────────────────────────────────────────
+  │   К   │   О   │   Т   │
+  │   4   │   5   │   9   │
+  ────────────────────────────────────────
+
+  🔢 Числовое представление:
+
+      495
+    + 459
+    ──────────
+      954
+
+  ✓ Проверка: 954 = 954
+
+  ⏱ Время выполнения: 0.0007 сек
 
 
-# =============================================================================
-# ФУНКЦИЯ ДЛЯ ГЕНЕРАЦИИ HTML-ОТЧЁТА (для веб-сайта)
-# =============================================================================
+────────────────────────────────────────────────────────────────────────────────
+  ✅  КОШКА + КОШКА + КОШКА = СОБАКА
+  РЕШЕНИЕ НАЙДЕНО
+────────────────────────────────────────────────────────────────────────────────
 
-def generate_html_report(solutions: List[Dict]) -> str:
-    """
-    Генерация HTML-отчёта для публикации на сайте
-    
-    Args:
-        solutions: Список решений
-    
-    Returns:
-        HTML-строка с отчётом
-    """
-    html = """
-    <!DOCTYPE html>
-    <html lang="ru">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Решение криптарифметических ребусов</title>
-        <style>
-            body { font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; }
-            .puzzle { border: 1px solid #ddd; margin: 20px 0; padding: 20px; border-radius: 8px; }
-            .success { border-left: 5px solid #28a745; }
-            .failure { border-left: 5px solid #dc3545; }
-            .mapping { background: #f8f9fa; padding: 10px; border-radius: 4px; }
-            .check { color: #28a745; font-weight: bold; }
-            table { border-collapse: collapse; width: 100%; }
-            th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
-            th { background: #f2f2f2; }
-        </style>
-    </head>
-    <body>
-        <h1>🧩 Решение криптарифметических ребусов</h1>
-    """
-    
-    for sol in solutions:
-        status_class = "success" if sol['found'] else "failure"
-        status_icon = "✅" if sol['found'] else "❌"
-        
-        html += f"""
-        <div class="puzzle {status_class}">
-            <h2>{status_icon} {sol['name']}</h2>
-        """
-        
-        if sol['found']:
-            html += "<div class='mapping'><strong>Соответствие букв цифрам:</strong><br>"
-            for letter, digit in sorted(sol['mapping'].items()):
-                html += f"{letter}={digit} "
-            html += "</div>"
-            html += f"<p class='check'>✓ Проверка: {sol['left_sum']} = {sol['result_num']}</p>"
-            html += f"<p>⏱ Время: {sol['time']:.2f} сек</p>"
-        else:
-            html += "<p>Решение не найдено</p>"
-        
-        html += "</div>"
-    
-    html += """
-    </body>
-    </html>
-    """
-    
-    return html
+  📋 Соответствие букв цифрам:
+
+  ────────────────────────────────────────
+  │   А   │   Б   │   К   │   О   │   С   │
+  │   0   │   2   │   5   │   7   │   1   │
+  ────────────────────────────────────────
+  │   Ш   │
+  │   3   │
+  ────────────────────────────────────────
+
+  🔢 Числовое представление:
+
+      57350
+      57350
+    + 57350
+    ───────────────
+     172050
+
+  ✓ Проверка: 172050 = 172050
+
+  ⏱ Время выполнения: 0.0638 сек
 
 
-# =============================================================================
-# ОСНОВНАЯ ФУНКЦИЯ ЗАПУСКА
-# =============================================================================
+────────────────────────────────────────────────────────────────────────────────
+  ✅  СИНУС + СИНУС + КОСИНУС = ТАНГЕНС
+  РЕШЕНИЕ НАЙДЕНО
+────────────────────────────────────────────────────────────────────────────────
 
-def main():
-    """Основная функция запуска программы"""
-    
-    print(CryptarithmConfig.SEPARATOR)
-    print("CRYPTARITHM SOLVER - Решатель криптарифметических ребусов")
-    print(CryptarithmConfig.SEPARATOR)
-    print()
-    
-    solver = CryptarithmSolver()
-    all_solutions = []
-    
-    for puzzle in CryptarithmConfig.PUZZLES:
-        # Замер времени
-        start_time = time()
-        
-        # Решение ребуса
-        result = solver.solve(puzzle['terms'], puzzle['result'])
-        
-        # Замер времени
-        elapsed_time = time() - start_time
-        
-        # Форматирование и вывод
-        output = solver.format_solution(puzzle['name'], result, elapsed_time)
-        print(output)
-        print()
-        
-        # Сохранение для отчёта
-        all_solutions.append({
-            'name': puzzle['name'],
-            'found': result is not None,
-            'mapping': result[0] if result else None,
-            'left_sum': result[1] if result else None,
-            'result_num': result[2] if result else None,
-            'time': elapsed_time
-        })
-    
-    # Итоговая таблица
-    print(CryptarithmConfig.SEPARATOR)
-    print("📊 ИТОГОВАЯ ТАБЛИЦА ВСЕХ РЕШЕНИЙ")
-    print(CryptarithmConfig.SEPARATOR)
-    
-    for sol in all_solutions:
-        status = "✅" if sol['found'] else "❌"
-        print(f"{status} {sol['name']}")
-    
-    print(CryptarithmConfig.SEPARATOR)
-    
-    # Сохранение HTML-отчёта (опционально)
-    # html_report = generate_html_report(all_solutions)
-    # with open('report.html', 'w', encoding='utf-8') as f:
-    #     f.write(html_report)
-    # print("\n📄 HTML-отчёт сохранён в файл: report.html")
+  📋 Соответствие букв цифрам:
+
+  ────────────────────────────────────────
+  │   А   │   Г   │   Е   │   И   │   К   │
+  │   0   │   6   │   1   │   8   │   3   │
+  ────────────────────────────────────────
+  │   Н   │   О   │   С   │   Т   │   У   │
+  │   7   │   9   │   5   │   4   │   2   │
+  ────────────────────────────────────────
+
+  🔢 Числовое представление:
+
+        58725
+        58725
+    + 3958725
+    ───────────────
+     4076175
+
+  ✓ Проверка: 4076175 = 4076175
+
+  ⏱ Время выполнения: 5.6122 сек
 
 
-# =============================================================================
-# ТОЧКА ВХОДА
-# =============================================================================
+════════════════════════════════════════════════════════════════════════════════
+  📊 ИТОГОВАЯ СТАТИСТИКА
+════════════════════════════════════════════════════════════════════════════════
 
-if __name__ == '__main__':
-    main()
+  Всего ребусов: 4
+  Решено: ✅ 4
+  Не решено: ❌ 0
+  Процент успеха: 100.0%
+
+  ⏱ Генерация HTML-отчёта...
     
 
     
