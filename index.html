@@ -306,6 +306,238 @@ clogs: 0.15%
 Факт: 74.0 | Прогноз: 75.0
 Факт: 84.0 | Прогноз: 83.8
 
+    <!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Результаты Нейросети</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .results-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .results-title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .results-title span {
+            color: #667eea;
+        }
+
+        /* Блок с ошибками MSE */
+        .mse-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .mse-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .mse-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .mse-label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .mse-value {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .mse-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        /* Блок с прогнозами */
+        .predictions-title {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .predictions-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .prediction-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px 15px;
+            text-align: center;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .prediction-card:hover {
+            background: #667eea;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .pred-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .prediction-card:hover .pred-label {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .pred-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .prediction-card:hover .pred-value {
+            color: white;
+        }
+
+        .pred-actual {
+            color: #e74c3c;
+        }
+
+        .pred-predicted {
+            color: #27ae60;
+        }
+
+        .prediction-card:hover .pred-actual,
+        .prediction-card:hover .pred-predicted {
+            color: white;
+        }
+
+        /* Статус успеха */
+        .status-success {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .mse-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .predictions-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .predictions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .results-container {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="results-container">
+        <h2 class="results-title">📊 Итоговые результаты <span>нейросети</span></h2>
+        
+        <!-- Блок MSE -->
+        <div class="mse-grid">
+            <div class="mse-item">
+                <div class="mse-icon">🎯</div>
+                <div class="mse-label">Ошибка на обучении (MSE)</div>
+                <div class="mse-value">0.004346</div>
+            </div>
+            <div class="mse-item">
+                <div class="mse-icon">📈</div>
+                <div class="mse-label">Ошибка на тесте (MSE)</div>
+                <div class="mse-value">0.003864</div>
+            </div>
+        </div>
+
+        <!-- Блок прогнозов -->
+        <h3 class="predictions-title">🔍 Примеры прогнозов (реальные оценки)</h3>
+        
+        <div class="predictions-grid">
+            <div class="prediction-card">
+                <div class="pred-label">Пример 1</div>
+                <div class="pred-value pred-actual">91.0</div>
+                <div style="font-size: 12px; margin: 5px 0;">↓</div>
+                <div class="pred-value pred-predicted">78.8</div>
+            </div>
+            <div class="prediction-card">
+                <div class="pred-label">Пример 2</div>
+                <div class="pred-value pred-actual">53.0</div>
+                <div style="font-size: 12px; margin: 5px 0;">↓</div>
+                <div class="pred-value pred-predicted">55.9</div>
+            </div>
+            <div class="prediction-card">
+                <div class="pred-label">Пример 3</div>
+                <div class="pred-value pred-actual">80.0</div>
+                <div style="font-size: 12px; margin: 5px 0;">↓</div>
+                <div class="pred-value pred-predicted">78.4</div>
+            </div>
+            <div class="prediction-card">
+                <div class="pred-label">Пример 4</div>
+                <div class="pred-value pred-actual">74.0</div>
+                <div style="font-size: 12px; margin: 5px 0;">↓</div>
+                <div class="pred-value pred-predicted">75.0</div>
 </div>
 
 </body>
