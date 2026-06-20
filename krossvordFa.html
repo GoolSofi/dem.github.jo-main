@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фармакология — Угадай слово</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            padding: 30px 20px;
+            color: #1e293b;
+        }
+
+        .wrapper {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #6366f1;
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+
+        .words-list {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .word-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 14px 16px;
+            border-radius: 10px;
+            transition: background 0.2s;
+            margin-bottom: 10px;
+        }
+
+        .word-row:hover {
+            background: #f8fafc;
+        }
+
+        .word-number {
+            flex-shrink: 0;
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .word-clue {
+            flex: 1;
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+
+        .word-input {
+            flex-shrink: 0;
+            width: 220px;
+            padding: 11px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            outline: none;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .word-input:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+
+        .word-input.correct {
+            border-color: #22c55e;
+            background: #f0fdf4;
+            color: #22c55e;
+        }
+
+        .word-input.incorrect {
+            border-color: #ef4444;
+            background: #fef2f2;
+            color: #ef4444;
+            animation: shake 0.4s;
+        }
+
+        .word-length {
+            flex-shrink: 0;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            min-width: 65px;
+            text-align: right;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:active {
+            transform: scale(0.96);
+        }
+
+        #checkBtn {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        #checkBtn:hover {
+            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+        }
+
+        #hintBtn {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        #resetBtn {
+            background: #e2e8f0;
+            color: #475569;
+        }
+
+        #resetBtn:hover {
+            background: #cbd5e1;
+        }
+
+        #message {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            min-height: 30px;
+        }
+
+        .score {
+            text-align: center;
+            margin-top: 10px;
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        @media (max-width: 600px) {
+            .word-row {
+                flex-wrap: wrap;
+            }
+            .word-input {
+                width: 100%;
+                order: 3;
+            }
+            .word-length {
+                order: 2;
+                margin-left: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <h1>💊 Фармакология</h1>
+        <p class="subtitle">Отгадайте 5 слов на тему фармакологии</p>
+
+        <div class="words-list" id="wordsList"></div>
+
+        <div class="controls">
+            <button id="checkBtn">✨ Проверить</button>
+            <button id="hintBtn">💡 Подсказка</button>
+            <button id="resetBtn">🔄 Очистить</button>
+        </div>
+
+        <div id="message"></div>
+        <div class="score" id="score"></div>
+    </div>
+
+    <script>
+        const words = [
+            { num: 1, word: "ДОЗА", clue: "Количество лекарства на один приём" },
+            { num: 2, word: "АМПУЛА", clue: "Стеклянный сосуд для инъекций" },
+            { num: 3, word: "ПИЛЮЛЯ", clue: "Круглое лекарство в оболочке" },
+            { num: 4, word: "ЛИНИМЕНТ", clue: "Жидкая мазь для наружного применения" },
+            { num: 5, word: "МАТЬ", clue: "Растение '...-и-мачеха' (лекарственное)" }
+        ];
+
+        const listEl = document.getElementById("wordsList");
+        const msgEl = document.getElementById("message");
+        const scoreEl = document.getElementById("score");
+
+        // Создаём строки для каждого слова
+        words.forEach(w => {
+            const row = document.createElement("div");
+            row.className = "word-row";
+            row.innerHTML = `
+                <div class="word-number">${w.num}</div>
+                <div class="word-clue">${w.clue}</div>
+                <input type="text" class="word-input" 
+                       data-answer="${w.word}" 
+                       data-num="${w.num}"
+                       maxlength="${w.word.length}"
+                       placeholder="${'_ '.repeat(w.word.length).trim()}">
+                <div class="word-length">${w.word.length} букв</div>
+            `;
+            listEl.appendChild(row);
+        });
+
+        // Только русские буквы
+        document.querySelectorAll(".word-input").forEach(inp => {
+            inp.addEventListener("input", e => {
+                e.target.value = e.target.value.replace(/[^а-яА-ЯёЁ]/g, "").toUpperCase();
+                e.target.classList.remove("correct", "incorrect");
+            });
+
+            // Переход к следующему полю при заполнении
+            inp.addEventListener("input", e => {
+                const expected = parseInt(e.target.dataset.answer.length);
+                if (e.target.value.length === expected) {
+                    const allInputs = Array.from(document.querySelectorAll(".word-input"));
+                    const idx = allInputs.indexOf(e.target);
+                    if (idx < allInputs.length - 1) {
+                        setTimeout(() => allInputs[idx + 1].focus(), 50);
+                    }
+                }
+            });
+
+            // Enter — переход к следующему
+            inp.addEventListener("keydown", e => {
+                if (e.key === "Enter") {
+                    const allInputs = Array.from(document.querySelectorAll(".word-input"));
+                    const idx = allInputs.indexOf(e.target);
+                    if (idx < allInputs.length - 1) allInputs[idx + 1].focus();
+                    else document.getElementById("checkBtn").click();
+                }
+            });
+        });
+
+        // Проверка
+        document.getElementById("checkBtn").addEventListener("click", () => {
+            const inputs = document.querySelectorAll(".word-input");
+            let correct = 0;
+            let filled = 0;
+
+            inputs.forEach(inp => {
+                const val = inp.value.trim().toUpperCase();
+                const answer = inp.dataset.answer;
+                inp.classList.remove("correct", "incorrect");
+
+                if (val) filled++;
+
+                if (val === answer) {
+                    inp.classList.add("correct");
+                    correct++;
+                } else if (val) {
+                    inp.classList.add("incorrect");
+                }
+            });
+
+            msgEl.textContent = "";
+            scoreEl.textContent = `Угадано: ${correct} из ${words.length}`;
+
+            if (filled === 0) {
+                msgEl.style.color = "#64748b";
+                msgEl.textContent = "Введите хотя бы одно слово";
+                scoreEl.textContent = "";
+            } else if (correct === words.length) {
+                msgEl.style.color = "#22c55e";
+                msgEl.textContent = "🎉 Поздравляем! Все слова угаданы верно!";
+            } else if (correct > 0) {
+                msgEl.style.color = "#f59e0b";
+                msgEl.textContent = `Хорошо! Осталось угадать ещё ${words.length - correct}`;
+            } else {
+                msgEl.style.color = "#ef4444";
+                msgEl.textContent = "Пока нет правильных ответов. Попробуйте ещё!";
+            }
+        });
+
+        // Подсказка — показать первую букву в пустых полях
+        document.getElementById("hintBtn").addEventListener("click", () => {
+            const inputs = document.querySelectorAll(".word-input");
+            let hintsShown = 0;
+            inputs.forEach(inp => {
+                if (!inp.value && !inp.classList.contains("correct")) {
+                    inp.value = inp.dataset.answer[0];
+                    hintsShown++;
+                }
+            });
+            if (hintsShown > 0) {
+                msgEl.style.color = "#f59e0b";
+                msgEl.textContent = `💡 Показаны первые буквы для ${hintsShown} слов`;
+            } else {
+                msgEl.style.color = "#64748b";
+                msgEl.textContent = "Все поля уже заполнены";
+            }
+        });
+
+        // Очистка
+        document.getElementById("resetBtn").addEventListener("click", () => {
+            document.querySelectorAll(".word-input").forEach(inp => {
+                inp.value = "";
+                inp.classList.remove("correct", "incorrect");
+            });
+            msgEl.textContent = "";
+            scoreEl.textContent = "";
+        });
+    </script>
+</body>
+</html>
